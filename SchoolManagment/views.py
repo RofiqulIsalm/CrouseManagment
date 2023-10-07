@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect
-from app.models import Categories,Course,Lavel,Video
+from app.models import Categories,Course,Lavel,Video,UserCourse,Payment
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.db.models import Sum
+from django.contrib import messages
+from time import time
 
 def Base(request):
     return render(request, 'base.html')
@@ -82,7 +84,11 @@ def Contact(request):
 def CourseDetails(request,slug):
     category = Categories.get_all_category(Categories)
     time_duration = Video.objects.filter(course__slug = slug).aggregate(sum = Sum('time_duration'))
-    
+    course_id = Course.objects.get(slug = slug)
+    try:
+        chack_enroll = UserCourse.objects.get(user = request.user , course = course_id)
+    except UserCourse.DoesNotExist:
+        chack_enroll = None
     course = Course.objects.filter(slug = slug)
     
     if course.exists:
@@ -94,6 +100,7 @@ def CourseDetails(request,slug):
         'category' : category,
         'course': course,
         'time_duration' : time_duration,
+        'chack_enroll' : chack_enroll,
     }
     return render(request, 'component/course/coursedeteils.html', context)
 
@@ -104,3 +111,55 @@ def PageNotFound(request):
         'category' : category,
     }
     return render(request, 'component/error/404.html', context)
+
+def Chackout(request,slug):
+    course = Course.objects.get(slug = slug)
+    action = request.GET.get('action')
+    order = None
+    if course.price == 0:
+        course = UserCourse(
+            user = request.user,
+            course = course,
+        )
+        course.save()
+        messages.success(request,'Course Are successfuly enroll...!')
+        return redirect('my_course')
+    elif action == 'create_payment':
+        if request.method == "POST":
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            city = request.POST.get('city')
+            phone = request.POST.get('phone')
+            email = request.POST.get('email')
+            order_comments = request.POST.get('order_comments')
+            
+            amount = course.price * 100
+            currency = "BDT"
+            note = {
+                "name" : f'{first_name} {last_name}',
+                "city" : city,
+                "phone": phone,
+                "email": email,
+                "order_comments": order_comments,
+            }
+            receipt = f"SchoolManagmenet-{int(time())}"
+            payment = Payment(
+                course = course,
+                user = request.user,
+            )
+            
+    context = {
+        'course':course,
+    }
+    return render(request, 'chackout/chackout.html', context)
+    
+def MyCourse(request):
+    course = UserCourse.objects.filter(user = request.user)
+    
+    context = {
+        'course':course,
+    }
+    return render(request, 'component/course/my_course.html',context)
+
+def PaymentVarification(request):
+    return render(request, "Chackout/payment.html")
