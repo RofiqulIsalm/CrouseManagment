@@ -24,7 +24,30 @@ def Registration(request):
         user.save()
         return redirect('login')
     return render(request, 'registration/logup.html')
-	
+
+def RegistrationT(request):
+    if request.method == 'POST':
+        username=request.POST.get('username')
+        email=request.POST.get('email')
+        password=request.POST.get('password')
+        dev_type = request.POST.get('type')
+        
+        
+        # email chaking
+        if User.objects.filter(email = email).exists():
+            messages.warning(request, "Email Already Exists...!")
+            return redirect('registration')
+        if User.objects.filter(username=username).exists():
+            messages.warning(request, 'Username Already Exists...!')
+            return redirect('registration')
+        user = User(
+            username = username,
+            email = email,
+        )
+        user.set_password(password)
+        user.save()
+        return redirect('login')
+    return render(request, 'registration/logupT.html')
 def DoLogin(request):
     if request.method == "POST":
         email = request.POST.get('email')

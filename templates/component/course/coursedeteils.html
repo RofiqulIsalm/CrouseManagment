@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static%}
+{%load coures_tag %}
 {% block title %}{{course.title}}{% endblock title %}
 {% block content %}
   <!-- BREADCRUMBS
@@ -189,10 +190,27 @@
                                             <i class='bx bx-movie-play' style="font-size:20px; color:crimson"></i>
 
                                         </div>
-
-                                        <div class="ms-4">
-                                            {{v.title}}
-                                        </div>
+                                        {% if chack_enroll is not None %}
+                                            <a href="/course/watch-course/{{course.slug}}">
+                                                <div class="ms-4" data-toggle="tooltip" title="Click and show">
+                                                    {{v.title}}
+                                                </div>
+                                            </a>
+                                        {% else %}
+                                            {% if v.preview == True %}
+                                                <a href="https://www.youtube.com/watch?v=fcAZmDD5VuU" class="rounded" data-fancybox>
+                                                   <div class="ms-4">
+                                                        {{v.title}}
+                                                   </div>
+                                                 </a>
+                                            {% else %}
+                                                <div class="ms-4" data-toggle="tooltip" title="Enroll The course!">
+                                                   {{v.title}}
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                        
+                                        
                                     </div>
 
                                     <div class="d-flex align-items-center overflow-auto overflow-md-visible flex-shrink-all">
@@ -513,9 +531,8 @@
                             </div>
                         {% else %}
                             <div class="d-flex align-items-center mb-2">
-                                <ins class="h2 mb-0">৳ {{course.price }}</ins>
-                                <del class="ms-3">{{cel}}</del>
-                                <div class="badge badge-lg badge-purple text-white ms-auto fw-normal">{{course.discount}}% Off</div>
+                                <ins class="h2 mb-0">৳ {% discount_calculation course.price course.discount %}</ins>
+                                <del class="ms-3">৳ {{course.price}}</del>
                             </div>
                         {% endif %}
                         <div class="d-flex align-items-center text-alizarin mb-6">
@@ -569,7 +586,7 @@
 
                                 </div>
                                 <h6 class="mb-0 ms-3 me-auto">Enrolled</h6>
-                                <span>1982 students</span>
+                                <span>{{course.usercourse_set.all.count}} students</span>
                             </li>
                             <li class="list-group-item d-flex align-items-center py-3"  style="background-color: #F7F9FB;">
                                 <div class="text-secondary d-flex icon-uxs">
@@ -627,7 +644,7 @@
                                 <span>{{course.certificate}}</span>
                             </li>
                             <li class="list-group-item d-flex align-items-center py-4"  style="background-color: #F7F9FB;">
-                                <a href="course-single-v5.html" class="mx-auto text-teal fw-medium d-flex align-items-center mt-2">
+                                <a href="#" class="mx-auto text-teal fw-medium d-flex align-items-center mt-2">
                                     <!-- Icon -->
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M16.0283 6.25C14.3059 6.25 12.9033 4.84833 12.9033 3.125C12.9033 1.40167 14.3059 0 16.0283 0C17.7509 0 19.1533 1.40167 19.1533 3.125C19.1533 4.84833 17.7509 6.25 16.0283 6.25ZM16.0283 1.25C14.995 1.25 14.1533 2.09076 14.1533 3.125C14.1533 4.15924 14.995 5 16.0283 5C17.0616 5 17.9033 4.15924 17.9033 3.125C17.9033 2.09076 17.0616 1.25 16.0283 1.25Z" fill="currentColor"/>

@@ -163,3 +163,29 @@ def MyCourse(request):
 
 def PaymentVarification(request):
     return render(request, "Chackout/payment.html")
+
+def WatchCourse(request,slug):
+    course = Course.objects.filter(slug = slug)
+    lecture = request.GET.get('lecture')
+    video = Video.objects.get(id = lecture)
+    if course.exists():
+        course = course.first()
+    else:
+        return redirect('404')
+    
+    context= {
+        'course' : course,
+        'video': video,
+    }
+    return render(request, 'component/course/lesson.html', context)
+
+def delete_course(request,course_id):
+    if request.user.username == 'admin':
+        try:
+            course = Course.objects.get(pk=course_id)
+            course.delete()
+        except Course.DoesNotExist:
+            pass  # Handle the case where the course doesn't exist
+
+    return redirect('homepage')
+    

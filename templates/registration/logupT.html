@@ -1,6 +1,6 @@
 
 {% extends 'base.html' %}
-{% block title %}Register-Student{% endblock title %}
+{% block title %}Register-Teacher{% endblock title %}
 {% block content %}
 <!-- PAGE TITLE
     ================================================== -->
@@ -32,16 +32,22 @@
         <div class="row gx-0">
             <div class="col-md-7 col-xl-4 mx-auto">
                 <!-- Register -->
-                <h3 class="mb-6">Sign Up and Start Learning!</h3>
-                <p class=" font-size-sm" >
-                    <!-- Sign up as a Teacher <a  class="text-underline" href="{% url 'registrationteacher' %}">Register</a> -->
-                    Sign up as a Teacher <a  class="text-underline" href="#">Register</a>
+                <h3 class="mb-6">Sign Up and Start Teaching!</h3>
+                <p class=" font-size-sm">
+                    Sign up as a Student <a class="text-underline" href="{% url 'registration' %}">Register</a>
                 </p>
                 {% include 'component/msg.html'%}
 
                 <!-- Form Register -->
                 <form class="mb-5" method="post" action="{% url 'registration' %}">
                     {% csrf_token %}
+                    <!-- Username -->
+                    <div class="form-group mb-5">
+                        <label for="modalSignupUsername1">
+                            name
+                        </label>
+                        <input type="text" class="form-control" id="modalSignupUsername1" placeholder="UserName Here" name="username" value="{{author.name}}" required>
+                    </div>
                     <!-- Username -->
                     <div class="form-group mb-5">
                         <label for="modalSignupUsername1">
@@ -63,7 +69,14 @@
                         <label for="modalSignupPassword3">
                             Password
                         </label>
-                        <input type="password" class="form-control" id="modalSignupPassword3" placeholder="Passeord Here" name="password" required>
+                        <input type="password" class="form-control" id="modalSignupPassword3" placeholder="Password Here" name="password" required>
+                    </div>
+                    <!-- DevType -->
+                    <div class="form-group mb-5">
+                        <label for="modalSignupPassword3">
+                           DevType
+                        </label>
+                        <input type="text" class="form-control" id="modalSignupPassword3" placeholder="Type of dev" name="type" value="{{author.dev_type}}" required>
                     </div>
 
                     <!-- Submit -->
