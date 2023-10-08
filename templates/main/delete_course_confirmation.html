@@ -1,0 +1,108 @@
+<link href="https://fonts.googleapis.com/css2?family=Courgette&family=Open+Sans:wght@300;400;500;600;700;800&family=Permanent+Marker&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+    body{
+        background-color: #4f00af6e;
+    }
+    .modal{
+        width: 500px;
+        background: rgba(128, 128, 128, 0.103);
+        margin: 20% auto;
+        padding: 10px 100px;
+        border: 2px solid gray;
+        border-top: 10px solid rgba(20, 23, 220, 0.993);
+        border-radius: 8px;
+        text-align: center;
+        transition: 0.8s;
+    }
+    .modal:hover{
+        border: none;
+        border-top: 10px solid rgba(20, 23, 220, 0.993);
+        box-shadow: 20px 20px crimson;
+    }
+    .modal-title{
+        font-size: 30px;
+        font-weight: 800;
+        font-family:'Courgette', cursive;
+        letter-spacing: 2px;
+        color: white;
+    }
+    .modal-footer{
+        margin-left: 30%;
+        width: 200px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        gap: 30px;
+        
+    }
+    p{
+        color: black;
+        font-size: 20px;
+        font-weight: 700;
+    }
+    .btn{
+        border: none;
+        padding: 10px 50px; 
+        text-align: center;  
+        font-size: 18px;
+        font-family: 'Courgette', cursive;
+        font-weight: 600;
+        letter-spacing: 2px;
+    }
+    .btn-danger{
+        color: white;
+        background-color: #ff9574;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        transition: 0.8s;
+    }
+    .btn-danger:hover{
+        border: 2px solid #422d8b;
+        background-color: transparent;
+        color: red;
+    }
+    .btn-secondary{
+        color: white;
+        background-color: #422d8b;
+        margin-bottom: 7%;
+        border-bottom-right-radius: 10px;
+        border-top-left-radius: 10px;
+        transition: 0.5s;
+    }
+    .btn-secondary:hover{
+        color: black;
+        border: 2px solid #ff9574;
+        background-color: transparent;
+    }
+
+</style>
+    <body>
+        
+    
+        <div class="modal fade" id="deleteCourseModal" tabindex="-1" role="dialog" aria-labelledby="deleteCourseModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteCourseModalLabel">Confirm Deletion</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this course?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="confirm_delete" class="btn btn-danger">Delete</button>
+                        </form>
+                        <a href="{%url 'homepage' %}"><button type="button" class="btn btn-secondary" data-dismiss="modal" href="{homepage}">Cancel</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function () {
+                $('#deleteCourseModal').modal('show');
+            });
+        </script>
+    </body>

@@ -29,7 +29,7 @@
 
                     <!-- Buttons -->
                     {% if user.is_authenticated %}
-                        <a href="course-list-v1.html" class="btn btn-tangerine btn-wide rounded-lg mb-4 mb-md-0 me-md-5 text-w" data-aos="fade-up" data-aos-duration="200">GET STARTED</a>
+                        <a href="#" class="btn btn-tangerine btn-wide rounded-lg mb-4 mb-md-0 me-md-5 text-w" data-aos="fade-up" data-aos-duration="200">GET STARTED</a>
                         <a href="{% url 'singlecourse' %}" class="btn btn-gigas btn-wide rounded-lg d-none d-lg-inline-block" data-aos="fade-up" data-aos-duration="200">VIEW COURSES</a>
                     {%else%}
                         <a href="accounts/login/" class="btn btn-tangerine btn-wide rounded-lg mb-4 mb-md-0 me-md-5 text-w" data-aos="fade-up" data-aos-duration="200">Sing In</a>
@@ -93,12 +93,14 @@
 
                                         </a>
 
+                                        <!-- templates/your_template.html -->
                                         {% if user.is_authenticated and user.username == 'admin' %}
-                                            <a href="{% url 'delete_course' i.id %}" class="btn btn-xs btn-dark text-white rounded-circle lift opacity-dot-7 p-2 d-inline-flex justify-content-center align-items-center w-36 h-36">
+                                            <a href="{% url 'delete_course' i.id %}" class="btn btn-xs btn-danger text-white rounded-circle lift opacity-dot-7 p-2 d-inline-flex justify-content-center align-items-center w-36 h-36">
                                                 <!-- Icon -->
                                                 <i class='bx bx-trash'></i>
-                                            </a>  
+                                            </a>
                                         {% endif %}
+
                                     </div>
 
                                     <a href="{{i.get_absolute_url}}" class="card-img sk-thumbnail img-ratio-9 d-block">

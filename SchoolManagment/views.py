@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect
 from app.models import Categories,Course,Lavel,Video,UserCourse,Payment
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Sum
 from django.contrib import messages
 from time import time
+from  app.forms import CourseForm
 
 def Base(request):
     return render(request, 'base.html')
@@ -85,6 +87,7 @@ def CourseDetails(request,slug):
     category = Categories.get_all_category(Categories)
     time_duration = Video.objects.filter(course__slug = slug).aggregate(sum = Sum('time_duration'))
     course_id = Course.objects.get(slug = slug)
+    courses = Course.objects.filter(status = 'PUBLISH').order_by('-id')
     try:
         chack_enroll = UserCourse.objects.get(user = request.user , course = course_id)
     except UserCourse.DoesNotExist:
@@ -99,6 +102,7 @@ def CourseDetails(request,slug):
     context ={
         'category' : category,
         'course': course,
+        'courses':courses,
         'time_duration' : time_duration,
         'chack_enroll' : chack_enroll,
     }
@@ -179,13 +183,36 @@ def WatchCourse(request,slug):
     }
     return render(request, 'component/course/lesson.html', context)
 
-def delete_course(request,course_id):
+def delete_course(request, course_id):
     if request.user.username == 'admin':
         try:
             course = Course.objects.get(pk=course_id)
-            course.delete()
+            if request.method == 'POST':
+              
+                if 'confirm_delete' in request.POST:
+                    course.delete()
+                    messages.success(request, 'Course deleted successfully.')
+                    return redirect('homepage')
+                else:
+                   
+                    messages.info(request, 'Course deletion canceled.')
+                    return redirect('coursedetails', slug=course.slug)
+            return render(request, 'main/delete_course_confirmation.html', {'course': course})
         except Course.DoesNotExist:
-            pass  # Handle the case where the course doesn't exist
+            pass  
 
-    return redirect('homepage')
+    return redirect('my_course')
     
+    
+def create_course(request):
+    if request.method == 'POST':
+        form = CourseForm(request.POST, request.FILES)
+        if form.is_valid():
+            course = form.save()
+            
+            return redirect('coursedetails', slug=course.slug)
+    else:
+        form = CourseForm()
+
+    context = {'form': form}
+    return render(request, 'component/course/frontend_course_form.html', context)

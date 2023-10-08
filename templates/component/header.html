@@ -110,6 +110,13 @@
                                         Account
                                     </a>
                                 </li>
+                                {% if user.is_authenticated and user.username == 'admin' %}
+                                <li class="dropdown-item">
+                                    <a class="dropdown-link" href="{% url 'create_course' %}">
+                                        Create Course
+                                    </a>
+                                </li>
+                                {% endif %}
                                 <li class="dropdown-item">
                                     <a class="dropdown-link" href="{% url 'my_course' %}">
                                         Enrolled Courses
@@ -134,6 +141,13 @@
                                         Account
                                     </a>
                                 </li>
+                                {% if user.is_authenticated and user.username == 'admin' %}
+                                <li class="dropdown-item">
+                                    <a class="dropdown-link" href="{% url 'create_course' %}">
+                                        Create Course
+                                    </a>
+                                </li>
+                                {% endif %}
                                 <li class="dropdown-item">
                                     <a class="dropdown-link" href="{% url 'my_course' %}">
                                         Enrolled Courses

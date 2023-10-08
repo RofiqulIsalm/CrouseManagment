@@ -23,7 +23,9 @@ urlpatterns = [
     path('accoutns/profile/update',user_log.ProfileUpdate, name="profile_update"),
     path('chackout/<slug:slug>',views.Chackout,name="chackout"),
     path('my-course/', views.MyCourse,name='my_course'),
-     path('delete_course/<int:course_id>/', views.delete_course, name='delete_course'),
+    path('delete_course/<int:course_id>/', views.delete_course, name='delete_course'),
     path('course/watch-course/<slug:slug>', views.WatchCourse,name='watch_course'),
     path('payment-varification/', views.PaymentVarification,name='PaymentVarification'),
+    path('create_course/', views.create_course, name='create_course'),
+
 ]+ static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
