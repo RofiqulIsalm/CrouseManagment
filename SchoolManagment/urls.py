@@ -17,7 +17,6 @@ urlpatterns = [
     path('contact/',views.Contact, name="contact"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/registration',user_log.Registration, name="registration"),
-    path('accounts/registration/teacher',user_log.RegistrationT, name="registrationteacher"),
     path('dologin',user_log.DoLogin, name='dologin'),
     path('accounts/profile',user_log.Profile, name='profile'),
     path('accoutns/profile/update',user_log.ProfileUpdate, name="profile_update"),
