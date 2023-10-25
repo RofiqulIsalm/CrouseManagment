@@ -35,7 +35,7 @@
                 <h3 class="mb-6">Sign Up and Start Learning!</h3>
                 <p class=" font-size-sm" >
                     
-                    Sign up as a Teacher <a  class="text-underline" href="#">Register</a>
+                    Sign up as a Teacher <a  class="text-underline" href="{% url 'registration_teacher' %}">Register</a>
                 </p>
                 {% include 'component/msg.html'%}
 
@@ -63,7 +63,7 @@
                         <label for="modalSignupPassword3">
                             Password
                         </label>
-                        <input type="password" class="form-control" id="modalSignupPassword3" placeholder="Passeord Here" name="password" required>
+                        <input type="password" class="form-control" id="modalSignupPassword3" placeholder="Password Here" name="password" required>
                     </div>
 
                     <!-- Submit -->

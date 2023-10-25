@@ -1,7 +1,11 @@
 from django.contrib import admin
 from .models import *
+from app.models import CustormUser
+from django.contrib.auth.admin import UserAdmin
 # Register your models here.
-
+# class UserModel(UserAdmin):
+#     list_display = ['username','user_type']
+    
 class what_you_learn_TabularInline(admin.TabularInline):
     model = What_you_learn
 class Requirements_TabularInline(admin.TabularInline):
@@ -22,3 +26,4 @@ admin.site.register(Video)
 admin.site.register(Language)
 admin.site.register(UserCourse)
 admin.site.register(Payment)
+admin.site.register(CustormUser)

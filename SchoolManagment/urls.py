@@ -16,7 +16,8 @@ urlpatterns = [
     path('about/',views.About, name="about"),
     path('contact/',views.Contact, name="contact"),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/registration',user_log.Registration, name="registration"),
+    path('accounts/registration/student',user_log.Registration, name="registration"),
+    # path('accounts/registration/teacher',user_log.RegistrationT, name="registration_teacher"),
     path('dologin',user_log.DoLogin, name='dologin'),
     path('accounts/profile',user_log.Profile, name='profile'),
     path('accoutns/profile/update',user_log.ProfileUpdate, name="profile_update"),
@@ -26,5 +27,10 @@ urlpatterns = [
     path('course/watch-course/<slug:slug>', views.WatchCourse,name='watch_course'),
     path('payment-varification/', views.PaymentVarification,name='PaymentVarification'),
     path('create_course/', views.create_course, name='create_course'),
+    path('profile/', views.Profile, name='profile'),
+    path('profile/Personal_Details',user_log.PDetails,name='personal_details'),
+    path('profile/bio',user_log.Bio,name='bio'),
+    path('profile/profile_photo',user_log.Profile_photo,name='profile_photo'),
+    path('profile/password_change',user_log.PasswordChange,name='password_change'),
 
 ]+ static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

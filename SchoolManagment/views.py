@@ -216,3 +216,6 @@ def create_course(request):
 
     context = {'form': form}
     return render(request, 'component/course/frontend_course_form.html', context)
+
+def Profile(request):
+    return render(request, 'main/profile.html')

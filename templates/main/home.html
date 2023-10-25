@@ -95,11 +95,27 @@
 
                                         <!-- templates/your_template.html -->
                                         {% if user.is_authenticated and user.username == 'admin' %}
-                                            <a href="{% url 'delete_course' i.id %}" class="btn btn-xs btn-danger text-white rounded-circle lift opacity-dot-7 p-2 d-inline-flex justify-content-center align-items-center w-36 h-36">
+                                            <a href="{% url 'delete_course' i.id %}"   class="btn btn-xs btn-danger text-white rounded-circle lift opacity-dot-7 p-2 d-inline-flex justify-content-center align-items-center w-36 h-36">
                                                 <!-- Icon -->
-                                                <i class='bx bx-trash'></i>
+                                                <i  class='bx bx-trash'></i>
                                             </a>
                                         {% endif %}
+                                        <div class="modal fade" id="coursedelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <form action="#" method="post">
+                                                  {% csrf_token %}
+                                                  <div class="modal-body">
+                                                     <input required type="text" name="bio" class="form-control" placeholder="Enter your bio">
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                  <button type="submit" class="btn btn-primary">Save changes</button>
+                                                  </div>
+                                               </form>
+                                            </div>
+                                            </div>
+                                        </div>
 
                                     </div>
 

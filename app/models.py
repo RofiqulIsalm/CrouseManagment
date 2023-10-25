@@ -3,8 +3,26 @@ from django.utils.text import slugify
 from django.db.models.signals import pre_save
 from django.urls import reverse
 from django.contrib.auth.models import User
-# Create your models here.
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
+from django.contrib.auth import get_user_model
 
+# Create your models here.
+class CustormUser(AbstractUser):
+    USER_CHOICES = [
+        (1, 'HOD'),
+        (2, 'STAFF'),
+        (3, 'STUDENT'),
+    ]
+    
+    user_type = models.IntegerField(choices=USER_CHOICES, default=1)
+    profile_photo = models.ImageField(upload_to='media/profile_photo', null=True, blank=True)
+    
+    date_of_birth = models.DateField(null=True, blank=True)
+    phone = models.CharField(max_length=15, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    bio = models.TextField(max_length=50,null=True, blank=True)
+    
 class Categories(models.Model):
     icon = models.CharField(max_length=200,null=True)
     name = models.CharField(max_length=200)
@@ -119,7 +137,7 @@ class Video(models.Model):
         return self.title
     
 class UserCourse(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey(Course,on_delete=models.CASCADE)
     paid = models.BooleanField(default=0)
     date = models.DateTimeField(auto_now_add=True)
@@ -131,10 +149,11 @@ class Payment(models.Model):
     oreder_id = models.CharField(max_length=100,null=True, blank=True)
     payment_id = models.CharField(max_length=100, null=True, blank=True)
     user_course = models.ForeignKey(UserCourse,on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey(Course,on_delete=models.CASCADE,null=True)
     date = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default=False)
     
     def __str__(self):
         return self.user.first_name + ' - ' + self.course.title
+    

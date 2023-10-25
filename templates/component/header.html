@@ -136,11 +136,11 @@
                             </a>
 
                             <ul class="dropdown-menu border-xl shadow-none" aria-labelledby="user">
-                                <li class="dropdown-item">
-                                    <a class="dropdown-link " href="{% url 'profile' %}">
-                                        Account
-                                    </a>
-                                </li>
+                                    <li class="dropdown-item">
+                                        <a class="dropdown-link " href="{% url 'profile' %}">
+                                            Account
+                                        </a>
+                                    </li>
                                 {% if user.is_authenticated and user.username == 'admin' %}
                                 <li class="dropdown-item">
                                     <a class="dropdown-link" href="{% url 'create_course' %}">
